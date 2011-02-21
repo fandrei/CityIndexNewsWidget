@@ -60,11 +60,34 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="CIAPI.Silverlight">
+      <HintPath>..\packages\CIAPI.CS.1.0.139.0\lib\Silverlight40\CIAPI.Silverlight.dll</HintPath>
+    </Reference>
+    <Reference Include="CityIndex.JsonClient.Silverlight">
+      <HintPath>..\packages\CIAPI.CS.1.0.139.0\lib\Silverlight40\CityIndex.JsonClient.Silverlight.dll</HintPath>
+    </Reference>
+    <Reference Include="Common.Logging.Silverlight">
+      <HintPath>..\packages\CIAPI.CS.1.0.139.0\lib\Silverlight40\Common.Logging.Silverlight.dll</HintPath>
+    </Reference>
     <Reference Include="mscorlib" />
+    <Reference Include="Newtonsoft.Json.Silverlight">
+      <HintPath>..\packages\CIAPI.CS.1.0.139.0\lib\Silverlight40\Newtonsoft.Json.Silverlight.dll</HintPath>
+    </Reference>
+    <Reference Include="StreamingClient.Silverlight">
+      <HintPath>..\packages\CIAPI.CS.1.0.139.0\lib\Silverlight40\StreamingClient.Silverlight.dll</HintPath>
+    </Reference>
+    <Reference Include="StreamingClient.Silverlight.Lightstreamer">
+      <HintPath>..\packages\CIAPI.CS.1.0.139.0\lib\Silverlight40\StreamingClient.Silverlight.Lightstreamer.dll</HintPath>
+    </Reference>
+    <Reference Include="System.ComponentModel.DataAnnotations, Version=2.0.5.0, Culture=neutral, PublicKeyToken=ddd0da4d3e678217" />
     <Reference Include="System.Windows" />
     <Reference Include="system" />
     <Reference Include="System.Core" />
     <Reference Include="System.Net" />
+    <Reference Include="System.Windows.Controls, Version=2.0.5.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35" />
+    <Reference Include="System.Windows.Controls.Data, Version=2.0.5.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35" />
+    <Reference Include="System.Windows.Controls.Data.Input, Version=2.0.5.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35" />
+    <Reference Include="System.Windows.Data, Version=2.0.5.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35" />
     <Reference Include="System.Xml" />
     <Reference Include="System.Windows.Browser" />
   </ItemGroup>
@@ -88,6 +111,7 @@
     </Page>
   </ItemGroup>
   <ItemGroup>
+    <None Include="packages.config" />
     <None Include="Properties\AppManifest.xml" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Silverlight\$(SilverlightVersion)\Microsoft.Silverlight.CSharp.targets" />
