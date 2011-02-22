@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
+using System.Threading;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Documents;
@@ -69,7 +70,28 @@ namespace CityIndexNewsWidget
 
 		private void UserControl_Loaded(object sender, RoutedEventArgs e)
 		{
-			RefreshNews();
+			//RefreshNews();
+			ThreadPool.QueueUserWorkItem(x => Refresh());
+		}
+
+		void Refresh()
+		{
+			try
+			{
+				var client = new Client(RPC_URI);
+				client.LogIn(USERNAME, PASSWORD);
+				var news = client.ListNewsHeadlines("UK", 10);
+				client.LogOut();
+			}
+			catch (Exception exc)
+			{
+				Dispatcher.BeginInvoke(
+					() =>
+					{
+						errTextBox.Text = exc.ToString();
+						tabControl1.SelectedItem = errTab;
+					});
+			}
 		}
 	}
 }
