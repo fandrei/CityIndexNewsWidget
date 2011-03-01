@@ -16,7 +16,7 @@
         <sdk:TabControl HorizontalAlignment="Stretch" Name="tabControl" VerticalAlignment="Stretch" Grid.Row="0">
             <sdk:TabItem Name="newsTab" Visibility="Collapsed">
                 <StackPanel Orientation="Vertical">
-                    <sdk:DataGrid AutoGenerateColumns="False" HorizontalAlignment="Stretch" Name="newsGrid" ItemsSource="{Binding}" IsReadOnly="True" HorizontalScrollBarVisibility="Disabled" HeadersVisibility="None" VerticalScrollBarVisibility="Disabled" SizeChanged="newsGrid_SizeChanged" MouseEnter="mainPage_MouseEnter" MouseLeave="mainPage_MouseLeave">
+                    <sdk:DataGrid AutoGenerateColumns="False" HorizontalAlignment="Stretch" Name="newsGrid" ItemsSource="{Binding}" IsReadOnly="True" HorizontalScrollBarVisibility="Disabled" HeadersVisibility="None" VerticalScrollBarVisibility="Disabled" SizeChanged="newsGrid_SizeChanged" MouseEnter="mainPage_MouseEnter" MouseLeave="mainPage_MouseLeave" Visibility="Collapsed">
                         <sdk:DataGrid.Columns>
                             <sdk:DataGridTextColumn Header="Published" Binding="{Binding PublishDate}"/>
                             <sdk:DataGridTemplateColumn Header="Headline" Width="*">

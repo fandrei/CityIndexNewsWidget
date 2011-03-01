@@ -90,7 +90,8 @@ namespace CityIndexNewsWidget
 					{
 						client.EndLogIn(ar);
 
-						client.BeginListNewsHeadlines("UK", ApplicationSettings.Instance.MaxCount,
+						client.BeginListNewsHeadlines(ApplicationSettings.Instance.CategoryCode,
+							ApplicationSettings.Instance.MaxCount,
 							ar2 =>
 							{
 								try
@@ -98,13 +99,9 @@ namespace CityIndexNewsWidget
 									var resp = client.EndListNewsHeadlines(ar2);
 									_news = resp.Headlines;
 
-									Dispatcher.BeginInvoke(
-										() =>
-										{
-											DataContext = _news;
-											tabControl.SelectedItem = newsTab;
-											refreshButton.IsEnabled = true;
-										});
+									client.BeginLogOut(ar3 => { }, null);
+
+									UpdateNewsGrid();
 								}
 								catch (Exception exc)
 								{
@@ -146,18 +143,12 @@ namespace CityIndexNewsWidget
 			{
 				var client = new Client(RPC_URI);
 				client.LogIn(USERNAME, PASSWORD);
-				var resp = client.ListNewsHeadlines("UK", ApplicationSettings.Instance.MaxCount);
+				var resp = client.ListNewsHeadlines(ApplicationSettings.Instance.CategoryCode,
+					ApplicationSettings.Instance.MaxCount);
 				_news = resp.Headlines;
 				client.LogOut();
 
-				Dispatcher.BeginInvoke(
-					() =>
-					{
-						DataContext = _news;
-
-						tabControl.SelectedItem = newsTab;
-						refreshButton.IsEnabled = true;
-					});
+				UpdateNewsGrid();
 
 			}
 			catch (Exception exc)
@@ -168,10 +159,31 @@ namespace CityIndexNewsWidget
 			Dispatcher.BeginInvoke(() => _timer.Start());
 		}
 
-		private void settingsButton_Click(object sender, RoutedEventArgs e)
+		private void UpdateNewsGrid()
+		{
+			Dispatcher.BeginInvoke(
+				() =>
+				{
+					DataContext = _news;
+
+					if (_news.Length != 0)
+						newsGrid.Visibility = Visibility.Visible;
+
+					tabControl.SelectedItem = newsTab;
+					refreshButton.IsEnabled = true;
+				});
+		}
+
+		private void settingsButton_Click(object sender, RoutedEventArgs args)
 		{
 			var settingsWindow = new SettingsWindow();
 			settingsWindow.Show();
+			settingsWindow.Closed +=
+				(s, a) =>
+				{
+					if (settingsWindow.DialogResult != null && settingsWindow.DialogResult.Value)
+						RefreshNews();
+				};
 		}
 
 		private void newsGrid_SizeChanged(object sender, SizeChangedEventArgs e)
