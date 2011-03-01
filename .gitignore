@@ -1,4 +1,5 @@
 bin/
 obj/
+ClientBin/
 *.Resharper.user
 *.suo

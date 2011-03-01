@@ -1,24 +1,54 @@
 ﻿<UserControl x:Class="CityIndexNewsWidget.MainPage"
+    x:Name="mainPage"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:sdk="http://schemas.microsoft.com/winfx/2006/xaml/presentation/sdk" 
     mc:Ignorable="d"
-    d:DesignHeight="300" d:DesignWidth="400" xmlns:sdk="http://schemas.microsoft.com/winfx/2006/xaml/presentation/sdk" Loaded="UserControl_Loaded">
+    d:DesignHeight="300" d:DesignWidth="400" Loaded="UserControl_Loaded" >
 
     <Grid x:Name="LayoutRoot" Background="White">
         <Grid.RowDefinitions>
             <RowDefinition Height="250*" />
             <RowDefinition Height="50" />
         </Grid.RowDefinitions>
-        <sdk:TabControl HorizontalAlignment="Stretch" Name="tabControl1" VerticalAlignment="Stretch" Grid.Row="0">
-            <sdk:TabItem Header="newsTab" Name="newsTab" Visibility="Collapsed">
-                <sdk:DataGrid AutoGenerateColumns="True" HorizontalAlignment="Stretch" Name="dataGrid1" VerticalAlignment="Stretch" ItemsSource="{Binding}" />
+        <sdk:TabControl HorizontalAlignment="Stretch" Name="tabControl" VerticalAlignment="Stretch" Grid.Row="0">
+            <sdk:TabItem Name="newsTab" Visibility="Collapsed">
+                <StackPanel Orientation="Vertical">
+                    <sdk:DataGrid AutoGenerateColumns="False" HorizontalAlignment="Stretch" Name="newsGrid" ItemsSource="{Binding}" IsReadOnly="True" HorizontalScrollBarVisibility="Disabled" HeadersVisibility="None" VerticalScrollBarVisibility="Disabled" SizeChanged="newsGrid_SizeChanged" MouseEnter="mainPage_MouseEnter" MouseLeave="mainPage_MouseLeave">
+                        <sdk:DataGrid.Columns>
+                            <sdk:DataGridTextColumn Header="Published" Binding="{Binding PublishDate}"/>
+                            <sdk:DataGridTemplateColumn Header="Headline" Width="*">
+                                <sdk:DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <TextBlock TextWrapping="Wrap" Text="{Binding Headline}" />
+                                    </DataTemplate>
+                                </sdk:DataGridTemplateColumn.CellTemplate>
+                            </sdk:DataGridTemplateColumn>
+                        </sdk:DataGrid.Columns>
+                        <sdk:DataGrid.RenderTransform>
+                            <TranslateTransform x:Name="translate" />
+                        </sdk:DataGrid.RenderTransform>
+                        <sdk:DataGrid.Resources>
+                            <Storyboard RepeatBehavior="Forever" x:Name="newsStoryBoard">
+                                <DoubleAnimation Storyboard.TargetName="translate"
+                                                         x:Name="newsAnimation"
+                                                         Storyboard.TargetProperty="Y" />
+                            </Storyboard>
+                        </sdk:DataGrid.Resources>
+                    </sdk:DataGrid>
+                </StackPanel>
             </sdk:TabItem>
-            <sdk:TabItem Header="errTab" Name="errTab" Visibility="Collapsed">
+            <sdk:TabItem Name="errTab" Visibility="Collapsed">
                 <TextBox Name="errTextBox" TextWrapping="Wrap" IsReadOnly="True" />
             </sdk:TabItem>
+            <sdk:TabItem Name="settingsTab" Visibility="Collapsed">
+            </sdk:TabItem>
         </sdk:TabControl>
-        <Button Content="Refresh" Height="23" HorizontalAlignment="Center" Name="refreshButton" VerticalAlignment="Bottom" Width="75" Click="refreshButton_Click" Margin="162,0,162,15" Grid.Row="1" />
+        <StackPanel Grid.Row="1" Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Center">
+            <Button Content="Refresh" Height="23" HorizontalAlignment="Center" Name="refreshButton" VerticalAlignment="Bottom" Width="75" Click="refreshButton_Click" />
+            <Button Content="Settings" Height="23" Name="settingsButton" VerticalAlignment="Center" Width="75" Click="settingsButton_Click" />
+        </StackPanel>
     </Grid>
 </UserControl>
