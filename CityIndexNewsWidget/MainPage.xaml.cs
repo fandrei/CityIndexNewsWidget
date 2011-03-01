@@ -95,12 +95,13 @@ namespace CityIndexNewsWidget
 							{
 								try
 								{
-									var news = client.EndListNewsHeadlines(ar2);
+									var resp = client.EndListNewsHeadlines(ar2);
+									_news = resp.Headlines;
 
 									Dispatcher.BeginInvoke(
 										() =>
 										{
-											DataContext = news.Headlines;
+											DataContext = _news;
 											tabControl.SelectedItem = newsTab;
 											refreshButton.IsEnabled = true;
 										});
@@ -131,37 +132,23 @@ namespace CityIndexNewsWidget
 
 		void RefreshNews()
 		{
-			//RefreshNewsAsync();
-
-			refreshButton.IsEnabled = false;
 			_timer.Stop();
-			ThreadPool.QueueUserWorkItem(x => RefreshNewsSyncThreadEntry());
+			refreshButton.IsEnabled = false;
+
+			RefreshNewsAsync();
+
+			//ThreadPool.QueueUserWorkItem(x => RefreshNewsSyncThreadEntry());
 		}
 
 		void RefreshNewsSyncThreadEntry()
 		{
 			try
 			{
-				//var client = new Client(RPC_URI);
-				//client.LogIn(USERNAME, PASSWORD);
-				//var news = client.ListNewsHeadlines("UK", 10);
-				//client.LogOut();
-
-				var dummyList = new List<NewsDTO>();
-				for (int i = 0; i < 20; i++)
-				{
-					var text = "news " + i;
-					for (int t = 0; t < 5; t++)
-						text += text;
-					dummyList.Add(
-						new NewsDTO
-						{
-							Headline = text,
-							PublishDate = DateTime.Now,
-							StoryId = i
-						});
-				}
-				_news = dummyList.ToArray();
+				var client = new Client(RPC_URI);
+				client.LogIn(USERNAME, PASSWORD);
+				var resp = client.ListNewsHeadlines("UK", 10);
+				_news = resp.Headlines;
+				client.LogOut();
 
 				Dispatcher.BeginInvoke(
 					() =>
@@ -189,6 +176,9 @@ namespace CityIndexNewsWidget
 
 		private void newsGrid_SizeChanged(object sender, SizeChangedEventArgs e)
 		{
+			if (_news == null)
+				return;
+
 			newsAnimation.From = tabControl.ActualHeight;
 			newsAnimation.To = -newsGrid.ActualHeight;
 			var secs = (newsAnimation.From.Value - newsAnimation.To.Value) / 50;

@@ -1,8 +1,8 @@
-﻿<%@ Page Language="C#" AutoEventWireup="true" %>
+﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="CityIndexNewsWidgetTestPage.aspx.cs" Inherits="CityIndexNewsWidget.Web.CityIndexNewsWidgetTestPage" %>
 
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" >
-<head runat="server">
+<head id="Head1" runat="server">
     <title>CityIndexNewsWidget</title>
     <style type="text/css">
     html, body {
@@ -23,19 +23,19 @@
         function onSilverlightError(sender, args) {
             var appSource = "";
             if (sender != null && sender != 0) {
-              appSource = sender.getHost().Source;
+                appSource = sender.getHost().Source;
             }
-            
+
             var errorType = args.ErrorType;
             var iErrorCode = args.ErrorCode;
 
             if (errorType == "ImageError" || errorType == "MediaError") {
-              return;
+                return;
             }
 
-            var errMsg = "Unhandled Error in Silverlight Application " +  appSource + "\n" ;
+            var errMsg = "Unhandled Error in Silverlight Application " + appSource + "\n";
 
-            errMsg += "Code: "+ iErrorCode + "    \n";
+            errMsg += "Code: " + iErrorCode + "    \n";
             errMsg += "Category: " + errorType + "       \n";
             errMsg += "Message: " + args.ErrorMessage + "     \n";
 
@@ -44,10 +44,10 @@
                 errMsg += "Line: " + args.lineNumber + "     \n";
                 errMsg += "Position: " + args.charPosition + "     \n";
             }
-            else if (errorType == "RuntimeError") {           
+            else if (errorType == "RuntimeError") {
                 if (args.lineNumber != 0) {
                     errMsg += "Line: " + args.lineNumber + "     \n";
-                    errMsg += "Position: " +  args.charPosition + "     \n";
+                    errMsg += "Position: " + args.charPosition + "     \n";
                 }
                 errMsg += "MethodName: " + args.methodName + "     \n";
             }

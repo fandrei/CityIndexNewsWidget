@@ -51,7 +51,6 @@
     <Reference Include="System.EnterpriseServices" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="CityIndexNewsWidgetTestPage.aspx" />
     <Content Include="CityIndexNewsWidgetTestPage.html" />
     <Content Include="ClientBin\CityIndexNewsWidget.xap" />
     <Content Include="Silverlight.js" />
@@ -62,9 +61,17 @@
     <Content Include="Web.Release.config">
       <DependentUpon>Web.config</DependentUpon>
     </Content>
+    <Content Include="CityIndexNewsWidgetTestPage.aspx" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="CityIndexNewsWidgetTestPage.aspx.cs">
+      <DependentUpon>CityIndexNewsWidgetTestPage.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="CityIndexNewsWidgetTestPage.aspx.designer.cs">
+      <DependentUpon>CityIndexNewsWidgetTestPage.aspx</DependentUpon>
+    </Compile>
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
