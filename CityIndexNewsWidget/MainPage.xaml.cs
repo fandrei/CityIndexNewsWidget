@@ -90,7 +90,7 @@ namespace CityIndexNewsWidget
 					{
 						client.EndLogIn(ar);
 
-						client.BeginListNewsHeadlines("UK", 10,
+						client.BeginListNewsHeadlines("UK", ApplicationSettings.Instance.MaxCount,
 							ar2 =>
 							{
 								try
@@ -146,7 +146,7 @@ namespace CityIndexNewsWidget
 			{
 				var client = new Client(RPC_URI);
 				client.LogIn(USERNAME, PASSWORD);
-				var resp = client.ListNewsHeadlines("UK", 10);
+				var resp = client.ListNewsHeadlines("UK", ApplicationSettings.Instance.MaxCount);
 				_news = resp.Headlines;
 				client.LogOut();
 

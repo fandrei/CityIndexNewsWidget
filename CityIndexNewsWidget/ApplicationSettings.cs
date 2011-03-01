@@ -11,14 +11,11 @@ namespace CityIndexNewsWidget
 		public ApplicationSettings()
 		{
 			RefreshPeriodSecs = 60;
+			MaxCount = 20;
 		}
 
-		private int _refreshPeriodSecs;
-		public int RefreshPeriodSecs
-		{
-			get { return _refreshPeriodSecs; }
-			set { _refreshPeriodSecs = value; }
-		}
+		public int RefreshPeriodSecs { get; set; }
+		public int MaxCount { get; set; }
 
 		private static ApplicationSettings _instance;
 
