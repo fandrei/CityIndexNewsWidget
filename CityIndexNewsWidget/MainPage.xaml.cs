@@ -134,6 +134,7 @@ namespace CityIndexNewsWidget
 			//RefreshNewsAsync();
 
 			refreshButton.IsEnabled = false;
+			_timer.Stop();
 			ThreadPool.QueueUserWorkItem(x => RefreshNewsSyncThreadEntry());
 		}
 
@@ -176,6 +177,8 @@ namespace CityIndexNewsWidget
 			{
 				ReportException(exc);
 			}
+
+			Dispatcher.BeginInvoke(() => _timer.Start());
 		}
 
 		private void settingsButton_Click(object sender, RoutedEventArgs e)

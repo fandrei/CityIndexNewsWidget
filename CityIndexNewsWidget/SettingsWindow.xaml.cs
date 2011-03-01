@@ -19,6 +19,11 @@ namespace CityIndexNewsWidget
 			InitializeComponent();
 		}
 
+		private void ChildWindow_Loaded(object sender, RoutedEventArgs e)
+		{
+			DataContext = ApplicationSettings.Instance;
+		}
+
 		private void OKButton_Click(object sender, RoutedEventArgs e)
 		{
 			ApplicationSettings.Instance.Save();
@@ -27,13 +32,7 @@ namespace CityIndexNewsWidget
 
 		private void CancelButton_Click(object sender, RoutedEventArgs e)
 		{
-			ApplicationSettings.Reload();
 			this.DialogResult = false;
-		}
-
-		private void ChildWindow_Loaded(object sender, RoutedEventArgs e)
-		{
-			DataContext = ApplicationSettings.Instance;
 		}
 	}
 }
