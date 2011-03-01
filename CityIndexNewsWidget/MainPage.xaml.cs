@@ -191,6 +191,11 @@ namespace CityIndexNewsWidget
 			if (_news == null)
 				return;
 
+			newsStoryBoard.Stop();
+
+			if (_news.Length == 0)
+				return;
+
 			newsAnimation.From = tabControl.ActualHeight;
 			newsAnimation.To = -newsGrid.ActualHeight;
 			var secs = (newsAnimation.From.Value - newsAnimation.To.Value) / 50;
