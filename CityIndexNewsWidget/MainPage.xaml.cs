@@ -137,7 +137,7 @@ namespace CityIndexNewsWidget
 				}, null);
 		}
 
-		private void GetNewsDetailAsync(int storyId)
+		private void ShowNewsDetailAsync(int storyId)
 		{
 			var client = new Client(RPC_URI);
 			client.BeginLogIn(USERNAME, PASSWORD,
@@ -156,7 +156,7 @@ namespace CityIndexNewsWidget
 
 									client.BeginLogOut(ar3 => { }, null);
 
-									ShowNewsDetailed(resp.NewsDetail);
+									ShowNewsDetail(resp.NewsDetail);
 								}
 								catch (Exception exc)
 								{
@@ -171,7 +171,7 @@ namespace CityIndexNewsWidget
 				}, null);
 		}
 
-		private void ShowNewsDetailed(NewsDetailDTO newsDetail)
+		private void ShowNewsDetail(NewsDetailDTO newsDetail)
 		{
 			Dispatcher.BeginInvoke(
 				() =>
@@ -179,7 +179,12 @@ namespace CityIndexNewsWidget
 					var window = new NewsDetailWindow();
 					window.Title = newsDetail.PublishDate + " " + newsDetail.Headline;
 					window.Content.Text = newsDetail.Story;
-					window.Closed += (s, a) => newsTicker.NewsStoryBoard.Resume();
+					window.Closed +=
+						(s, a) =>
+							{
+								newsTicker.Cursor = Cursors.Arrow;
+								newsTicker.NewsStoryBoard.Resume();
+							};
 					window.Show();
 				});
 		}
@@ -254,7 +259,8 @@ namespace CityIndexNewsWidget
 		private void newsTicker_ItemClicked(object sender, TickerControl.ClickArgs args)
 		{
 			var newsObj = _news[args.Index];
-			GetNewsDetailAsync(newsObj.StoryId);
+			newsTicker.Cursor = Cursors.Wait;
+			ShowNewsDetailAsync(newsObj.StoryId);
 		}
 	}
 }
