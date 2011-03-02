@@ -6,7 +6,7 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:sdk="http://schemas.microsoft.com/winfx/2006/xaml/presentation/sdk" 
     mc:Ignorable="d"
-    d:DesignHeight="300" d:DesignWidth="400" Loaded="UserControl_Loaded" >
+    d:DesignHeight="300" d:DesignWidth="400" Loaded="UserControl_Loaded" xmlns:my="clr-namespace:CityIndexNewsWidget">
 
     <Grid x:Name="LayoutRoot" Background="White">
         <Grid.RowDefinitions>
@@ -15,30 +15,7 @@
         </Grid.RowDefinitions>
         <sdk:TabControl HorizontalAlignment="Stretch" Name="tabControl" VerticalAlignment="Stretch" Grid.Row="0">
             <sdk:TabItem Name="newsTab" Visibility="Collapsed">
-                <StackPanel Orientation="Vertical">
-                    <sdk:DataGrid AutoGenerateColumns="False" HorizontalAlignment="Stretch" Name="newsGrid" ItemsSource="{Binding}" IsReadOnly="True" HorizontalScrollBarVisibility="Disabled" HeadersVisibility="None" VerticalScrollBarVisibility="Disabled" SizeChanged="newsGrid_SizeChanged" MouseEnter="mainPage_MouseEnter" MouseLeave="mainPage_MouseLeave" Visibility="Collapsed">
-                        <sdk:DataGrid.Columns>
-                            <sdk:DataGridTextColumn Header="Published" Binding="{Binding PublishDate}"/>
-                            <sdk:DataGridTemplateColumn Header="Headline" Width="*">
-                                <sdk:DataGridTemplateColumn.CellTemplate>
-                                    <DataTemplate>
-                                        <TextBlock TextWrapping="Wrap" Text="{Binding Headline}" />
-                                    </DataTemplate>
-                                </sdk:DataGridTemplateColumn.CellTemplate>
-                            </sdk:DataGridTemplateColumn>
-                        </sdk:DataGrid.Columns>
-                        <sdk:DataGrid.RenderTransform>
-                            <TranslateTransform x:Name="translate" />
-                        </sdk:DataGrid.RenderTransform>
-                        <sdk:DataGrid.Resources>
-                            <Storyboard RepeatBehavior="Forever" x:Name="newsStoryBoard">
-                                <DoubleAnimation Storyboard.TargetName="translate"
-                                                         x:Name="newsAnimation"
-                                                         Storyboard.TargetProperty="Y" />
-                            </Storyboard>
-                        </sdk:DataGrid.Resources>
-                    </sdk:DataGrid>
-                </StackPanel>
+                <my:TickerControl x:Name="newsTicker" ItemClicked="newsTicker_ItemClicked" />
             </sdk:TabItem>
             <sdk:TabItem Name="errTab" Visibility="Collapsed">
                 <TextBox Name="errTextBox" TextWrapping="Wrap" IsReadOnly="True" />

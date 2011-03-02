@@ -1,0 +1,34 @@
+﻿<UserControl x:Class="CityIndexNewsWidget.TickerControl"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:sdk="clr-namespace:System.Windows.Controls;assembly=System.Windows.Controls.Data" mc:Ignorable="d"
+    d:DesignHeight="300" d:DesignWidth="400">
+    
+    <Grid x:Name="LayoutRoot" Background="White">
+        <StackPanel Orientation="Vertical">
+            <sdk:DataGrid AutoGenerateColumns="False" HorizontalAlignment="Stretch" Name="newsGrid" ItemsSource="{Binding}" IsReadOnly="True" HorizontalScrollBarVisibility="Disabled" HeadersVisibility="None" VerticalScrollBarVisibility="Disabled" SelectionMode="Single" SizeChanged="newsGrid_SizeChanged" MouseEnter="mainPage_MouseEnter" MouseLeave="mainPage_MouseLeave" GridLinesVisibility="None" BorderThickness="0" MouseLeftButtonUp="newsGrid_MouseLeftButtonUp">
+                <sdk:DataGrid.Columns>
+                    <sdk:DataGridTextColumn Header="Published" Binding="{Binding PublishDate}"/>
+                    <sdk:DataGridTemplateColumn Header="Headline" Width="*">
+                        <sdk:DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <TextBlock TextWrapping="Wrap" Text="{Binding Headline}" />
+                            </DataTemplate>
+                        </sdk:DataGridTemplateColumn.CellTemplate>
+                    </sdk:DataGridTemplateColumn>
+                </sdk:DataGrid.Columns>
+                <sdk:DataGrid.RenderTransform>
+                    <TranslateTransform x:Name="translate" />
+                </sdk:DataGrid.RenderTransform>
+                <sdk:DataGrid.Resources>
+                    <Storyboard RepeatBehavior="Forever" x:Name="NewsStoryBoard">
+                        <DoubleAnimation Storyboard.TargetName="translate"
+                                                         x:Name="newsAnimation"
+                                                         Storyboard.TargetProperty="Y" />
+                    </Storyboard>
+                </sdk:DataGrid.Resources>
+            </sdk:DataGrid>
+        </StackPanel>
+    </Grid>
+</UserControl>

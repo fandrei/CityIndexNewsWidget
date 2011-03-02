@@ -78,6 +78,27 @@ namespace CityIndexNewsWidget
 			RefreshNews();
 		}
 
+		private void ReportException(Exception exc)
+		{
+			Dispatcher.BeginInvoke(
+				() =>
+				{
+					errTextBox.Text = exc.ToString();
+					tabControl.SelectedItem = errTab;
+					refreshButton.IsEnabled = true;
+				});
+		}
+
+		void RefreshNews()
+		{
+			_timer.Stop();
+			refreshButton.IsEnabled = false;
+
+			RefreshNewsAsync();
+			//ThreadPool.QueueUserWorkItem(x => RefreshNewsSyncThreadEntry());
+			//RefreshNewsDummy();
+		}
+
 		private void RefreshNewsAsync()
 		{
 			refreshButton.IsEnabled = false;
@@ -116,25 +137,51 @@ namespace CityIndexNewsWidget
 				}, null);
 		}
 
-		private void ReportException(Exception exc)
+		private void GetNewsDetailAsync(int storyId)
+		{
+			var client = new Client(RPC_URI);
+			client.BeginLogIn(USERNAME, PASSWORD,
+				ar =>
+				{
+					try
+					{
+						client.EndLogIn(ar);
+
+						client.BeginGetNewsDetail(storyId.ToString(),
+							ar2 =>
+							{
+								try
+								{
+									var resp = client.EndGetNewsDetail(ar2);
+
+									client.BeginLogOut(ar3 => { }, null);
+
+									ShowNewsDetailed(resp.NewsDetail);
+								}
+								catch (Exception exc)
+								{
+									ReportException(exc);
+								}
+							}, null);
+					}
+					catch (Exception exc)
+					{
+						ReportException(exc);
+					}
+				}, null);
+		}
+
+		private void ShowNewsDetailed(NewsDetailDTO newsDetail)
 		{
 			Dispatcher.BeginInvoke(
 				() =>
 				{
-					errTextBox.Text = exc.ToString();
-					tabControl.SelectedItem = errTab;
-					refreshButton.IsEnabled = true;
+					var window = new NewsDetailWindow();
+					window.Title = newsDetail.PublishDate + " " + newsDetail.Headline;
+					window.Content.Text = newsDetail.Story;
+					window.Closed += (s, a) => newsTicker.NewsStoryBoard.Resume();
+					window.Show();
 				});
-		}
-
-		void RefreshNews()
-		{
-			_timer.Stop();
-			refreshButton.IsEnabled = false;
-
-			RefreshNewsAsync();
-
-			//ThreadPool.QueueUserWorkItem(x => RefreshNewsSyncThreadEntry());
 		}
 
 		void RefreshNewsSyncThreadEntry()
@@ -159,15 +206,33 @@ namespace CityIndexNewsWidget
 			Dispatcher.BeginInvoke(() => _timer.Start());
 		}
 
+		void RefreshNewsDummy()
+		{
+			var dummyList = new List<NewsDTO>();
+			for (int i = 0; i < ApplicationSettings.Instance.MaxCount; i++)
+			{
+				var text = "news " + i;
+				for (int t = 0; t < 5; t++)
+					text += text;
+				dummyList.Add(
+					new NewsDTO
+					{
+						Headline = text,
+						PublishDate = DateTime.Now,
+						StoryId = i
+					});
+			}
+			_news = dummyList.ToArray();
+
+			UpdateNewsGrid();
+		}
+
 		private void UpdateNewsGrid()
 		{
 			Dispatcher.BeginInvoke(
 				() =>
 				{
-					DataContext = _news;
-
-					if (_news.Length != 0)
-						newsGrid.Visibility = Visibility.Visible;
+					newsTicker.DataContext = _news;
 
 					tabControl.SelectedItem = newsTab;
 					refreshButton.IsEnabled = true;
@@ -186,32 +251,10 @@ namespace CityIndexNewsWidget
 				};
 		}
 
-		private void newsGrid_SizeChanged(object sender, SizeChangedEventArgs e)
+		private void newsTicker_ItemClicked(object sender, TickerControl.ClickArgs args)
 		{
-			if (_news == null)
-				return;
-
-			newsStoryBoard.Stop();
-
-			if (_news.Length == 0)
-				return;
-
-			newsAnimation.From = tabControl.ActualHeight;
-			newsAnimation.To = -newsGrid.ActualHeight;
-			var secs = (newsAnimation.From.Value - newsAnimation.To.Value) / 50;
-			newsAnimation.Duration = new Duration(TimeSpan.FromSeconds(secs));
-
-			newsStoryBoard.Begin();
-		}
-
-		private void mainPage_MouseEnter(object sender, MouseEventArgs e)
-		{
-			newsStoryBoard.Pause();
-		}
-
-		private void mainPage_MouseLeave(object sender, MouseEventArgs e)
-		{
-			newsStoryBoard.Resume();
+			var newsObj = _news[args.Index];
+			GetNewsDetailAsync(newsObj.StoryId);
 		}
 	}
 }
