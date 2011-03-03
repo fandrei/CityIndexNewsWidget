@@ -104,7 +104,7 @@ namespace CityIndexNewsWidget
 
 		void CheckKeywords()
 		{
-			var keywords = ApplicationSettings.Instance.AlertKeywords.Split(new[] {' '},
+			var keywords = ApplicationSettings.Instance.AlertKeywords.Split(new[] { ' ' },
 				StringSplitOptions.RemoveEmptyEntries);
 
 			// number of news and keywords isn't supposed to be big, so use the simplest algorithm
@@ -152,29 +152,24 @@ namespace CityIndexNewsWidget
 
 		private void ShowNewsDetail(NewsDTO newsObj, string title)
 		{
-			newsTicker.Cursor = Cursors.Wait;
-			_data.GetNewsDetailAsync(newsObj.StoryId, 
-				detail => ShowNewsDetail(detail, title), ReportException);
-		}
-
-		private void ShowNewsDetail(NewsDetailDTO newsDetail, string title)
-		{
-			Dispatcher.BeginInvoke(
-				() =>
+			var window = new NewsDetailWindow();
+			window.Title = title + newsObj.PublishDate + " " + newsObj.Headline;
+			window.Closed +=
+				(s, a) =>
 				{
-					newsTicker.Cursor = Cursors.Arrow;
+					newsTicker.NewsStoryBoard.Resume();
+				};
+			window.Cursor = Cursors.Wait;
+			window.Show();
 
-					var window = new NewsDetailWindow();
-					window.Title = title + newsDetail.PublishDate + " " + newsDetail.Headline;
-					window.Content.Text = newsDetail.Story;
-					window.Closed +=
-						(s, a) =>
-						{
-							newsTicker.NewsStoryBoard.Resume();
-						};
-					window.Show();
-				});
+			_data.GetNewsDetailAsync(newsObj.StoryId,
+				detail => Dispatcher.BeginInvoke(
+					() =>
+					{
+						window.Cursor = Cursors.Arrow;
+						window.Content.Text = detail.Story;
+					}),
+				ReportException);
 		}
-
 	}
 }

@@ -10,7 +10,9 @@
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
 
+        <Grid Background="White">
+            <TextBlock HorizontalAlignment="Stretch" Name="Content" VerticalAlignment="Stretch" TextWrapping="Wrap" />
+        </Grid>
         <Button x:Name="OkButton" Content="OK" Click="OkButton_Click" Width="75" Height="23" HorizontalAlignment="Right" Margin="0,12,0,0" Grid.Row="1" />
-        <TextBlock HorizontalAlignment="Stretch" Name="Content" VerticalAlignment="Stretch" TextWrapping="Wrap" />
     </Grid>
 </controls:ChildWindow>
