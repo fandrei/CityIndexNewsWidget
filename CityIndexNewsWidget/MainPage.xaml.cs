@@ -17,7 +17,7 @@ namespace CityIndexNewsWidget
 			InitializeComponent();
 		}
 
-		private readonly DispatcherTimer _timer = new DispatcherTimer();
+		private readonly DispatcherTimer _refreshTimer = new DispatcherTimer();
 		readonly Data _data = new Data();
 
 		private void UserControl_Loaded(object sender, RoutedEventArgs e)
@@ -31,12 +31,12 @@ namespace CityIndexNewsWidget
 
 		private void InitTimer()
 		{
-			_timer.Interval = TimeSpan.FromSeconds(ApplicationSettings.Instance.RefreshPeriodSecs);
-			_timer.Tick += TimerTick;
-			_timer.Start();
+			_refreshTimer.Interval = TimeSpan.FromSeconds(ApplicationSettings.Instance.RefreshPeriodSecs);
+			_refreshTimer.Tick += RefreshTimerTick;
+			_refreshTimer.Start();
 		}
 
-		public void TimerTick(object o, EventArgs sender)
+		public void RefreshTimerTick(object o, EventArgs sender)
 		{
 			RefreshNews();
 		}
@@ -80,26 +80,51 @@ namespace CityIndexNewsWidget
 		private void newsTicker_ItemClicked(object sender, TickerControl.ClickArgs args)
 		{
 			var newsObj = _data.News[args.Index];
-			newsTicker.Cursor = Cursors.Wait;
-			_data.GetNewsDetailAsync(newsObj.StoryId, ShowNewsDetail, ReportException);
+			ShowNewsDetail(newsObj, "");
 		}
 
 		void RefreshNews()
 		{
-			_timer.Stop();
+			_refreshTimer.Stop();
 			refreshButton.IsEnabled = false;
 
 			_data.RefreshNews(
 				() =>
 				{
 					UpdateNewsGrid();
-					Dispatcher.BeginInvoke(() => _timer.Start());
+					CheckKeywords();
+					Dispatcher.BeginInvoke(() => _refreshTimer.Start());
 				},
 				exception =>
 				{
 					ReportException(exception);
-					Dispatcher.BeginInvoke(() => _timer.Start());
+					Dispatcher.BeginInvoke(() => _refreshTimer.Start());
 				});
+		}
+
+		void CheckKeywords()
+		{
+			var keywords = ApplicationSettings.Instance.AlertKeywords.Split(new[] {' '},
+				StringSplitOptions.RemoveEmptyEntries);
+
+			// number of news and keywords isn't supposed to be big, so use the simplest algorithm
+			foreach (var newsDto in _data.News)
+			{
+				foreach (var keyword in keywords)
+				{
+					if (newsDto.Headline.IndexOf(keyword, StringComparison.OrdinalIgnoreCase) != -1)
+					{
+						ShowAlert(newsDto, keyword);
+						break;
+					}
+				}
+			}
+		}
+
+		void ShowAlert(NewsDTO news, string keyword)
+		{
+			var title = string.Format("Alert ({0}): ", keyword);
+			Dispatcher.BeginInvoke(() => ShowNewsDetail(news, title));
 		}
 
 		private void ReportException(Exception exc)
@@ -125,18 +150,26 @@ namespace CityIndexNewsWidget
 				});
 		}
 
-		private void ShowNewsDetail(NewsDetailDTO newsDetail)
+		private void ShowNewsDetail(NewsDTO newsObj, string title)
+		{
+			newsTicker.Cursor = Cursors.Wait;
+			_data.GetNewsDetailAsync(newsObj.StoryId, 
+				detail => ShowNewsDetail(detail, title), ReportException);
+		}
+
+		private void ShowNewsDetail(NewsDetailDTO newsDetail, string title)
 		{
 			Dispatcher.BeginInvoke(
 				() =>
 				{
+					newsTicker.Cursor = Cursors.Arrow;
+
 					var window = new NewsDetailWindow();
-					window.Title = newsDetail.PublishDate + " " + newsDetail.Headline;
+					window.Title = title + newsDetail.PublishDate + " " + newsDetail.Headline;
 					window.Content.Text = newsDetail.Story;
 					window.Closed +=
 						(s, a) =>
 						{
-							newsTicker.Cursor = Cursors.Arrow;
 							newsTicker.NewsStoryBoard.Resume();
 						};
 					window.Show();

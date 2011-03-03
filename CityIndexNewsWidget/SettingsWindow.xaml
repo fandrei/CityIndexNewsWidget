@@ -13,10 +13,12 @@
         <Grid>
             <sdk:Label Height="28" HorizontalAlignment="Left" Margin="18,18,0,0" Name="label1" VerticalAlignment="Top" Width="120" Content="Refresh period (secs)"/>
             <TextBox Height="23" HorizontalAlignment="Right" Margin="0,18,58,0" Name="textBox1" VerticalAlignment="Top" Width="120" Text="{Binding RefreshPeriodSecs, Mode=TwoWay}"/>
-            <sdk:Label Content="Max headlines count" Height="28" HorizontalAlignment="Left" Margin="18,60,0,0" Name="label2" VerticalAlignment="Top" Width="120" />
-            <TextBox Height="23" HorizontalAlignment="Right" Margin="0,60,58,0" Name="textBox2" Text="{Binding MaxCount, Mode=TwoWay}" VerticalAlignment="Top" Width="120" />
-            <sdk:Label Content="Category code" Height="28" HorizontalAlignment="Left" Margin="18,107,0,0" Name="label3" VerticalAlignment="Top" Width="120" />
-            <TextBox Height="23" HorizontalAlignment="Right" Margin="0,107,58,0" Name="textBox3" Text="{Binding CategoryCode, Mode=TwoWay}" VerticalAlignment="Top" Width="120" />
+            <sdk:Label Content="Max headlines count" Height="28" HorizontalAlignment="Left" Margin="18,52,0,0" Name="label2" VerticalAlignment="Top" Width="120" />
+            <TextBox Height="23" HorizontalAlignment="Right" Margin="0,52,58,0" Name="textBox2" Text="{Binding MaxCount, Mode=TwoWay}" VerticalAlignment="Top" Width="120" />
+            <sdk:Label Content="Category code" Height="28" HorizontalAlignment="Left" Margin="18,86,0,0" Name="label3" VerticalAlignment="Top" Width="120" />
+            <TextBox Height="23" HorizontalAlignment="Right" Margin="0,86,58,0" Name="textBox3" Text="{Binding CategoryCode, Mode=TwoWay}" VerticalAlignment="Top" Width="120" />
+            <sdk:Label Height="28" HorizontalAlignment="Left" Margin="18,120,0,0" Name="label4" VerticalAlignment="Top" Width="120" Content="Alert keywords" />
+            <TextBox HorizontalAlignment="Stretch" Margin="18,146,18,15" Name="textBox4" VerticalAlignment="Stretch" Width="340" TextWrapping="Wrap" Text="{Binding AlertKeywords, Mode=TwoWay}" VerticalScrollBarVisibility="Visible" />
         </Grid>
         <Button x:Name="CancelButton" Content="Cancel" Click="CancelButton_Click" Width="75" Height="23" HorizontalAlignment="Right" Margin="0,12,0,0" Grid.Row="1" />
         <Button x:Name="OKButton" Content="OK" Click="OKButton_Click" Width="75" Height="23" HorizontalAlignment="Right" Margin="0,12,79,0" Grid.Row="1" />

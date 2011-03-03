@@ -13,11 +13,13 @@ namespace CityIndexNewsWidget
 			RefreshPeriodSecs = 60;
 			MaxCount = 20;
 			CategoryCode = "UK";
+			AlertKeywords = "";
 		}
 
 		public int RefreshPeriodSecs { get; set; }
 		public int MaxCount { get; set; }
 		public string CategoryCode { get; set; }
+		public string AlertKeywords { get; set; }
 
 		private static ApplicationSettings _instance;
 
