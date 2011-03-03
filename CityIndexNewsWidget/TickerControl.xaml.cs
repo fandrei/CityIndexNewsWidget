@@ -19,6 +19,10 @@ namespace CityIndexNewsWidget
 			InitializeComponent();
 		}
 
+		private void UserControl_Loaded(object sender, RoutedEventArgs e)
+		{
+		}
+
 		private void newsGrid_SizeChanged(object sender, SizeChangedEventArgs e)
 		{
 			var data = (Array)DataContext;

@@ -25,7 +25,7 @@
         </sdk:TabControl>
         <StackPanel Grid.Row="1" Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Center">
             <Button Content="Refresh" Height="23" HorizontalAlignment="Center" Name="refreshButton" VerticalAlignment="Bottom" Width="75" Click="refreshButton_Click" />
-            <Button Content="Settings" Height="23" Name="settingsButton" VerticalAlignment="Center" Width="75" Click="settingsButton_Click" />
+            <Button Content="Settings" Height="23" Name="settingsButton" VerticalAlignment="Center" Width="75" Click="settingsButton_Click" Margin="20,0,0,0" />
         </StackPanel>
     </Grid>
 </UserControl>
