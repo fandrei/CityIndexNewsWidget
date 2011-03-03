@@ -48,8 +48,8 @@ namespace CityIndexNewsWidget
 				{
 					try
 					{
-						errTextBox.Text = args.ExceptionObject.ToString();
-						tabControl.SelectedItem = errTab;
+						ErrTextBox.Text = args.ExceptionObject.ToString();
+						TabControl.SelectedItem = ErrTab;
 					}
 					catch (Exception exc)
 					{
@@ -60,12 +60,12 @@ namespace CityIndexNewsWidget
 			args.Handled = true;
 		}
 
-		private void refreshButton_Click(object sender, RoutedEventArgs e)
+		private void RefreshButton_Click(object sender, RoutedEventArgs e)
 		{
 			RefreshNews();
 		}
 
-		private void settingsButton_Click(object sender, RoutedEventArgs args)
+		private void SettingsButton_Click(object sender, RoutedEventArgs args)
 		{
 			var settingsWindow = new SettingsWindow();
 			settingsWindow.Show();
@@ -77,7 +77,7 @@ namespace CityIndexNewsWidget
 				};
 		}
 
-		private void newsTicker_ItemClicked(object sender, TickerControl.ClickArgs args)
+		private void NewsTicker_ItemClicked(object sender, TickerControl.ClickArgs args)
 		{
 			var newsObj = _data.News[args.Index];
 			ShowNewsDetail(newsObj, "");
@@ -86,7 +86,7 @@ namespace CityIndexNewsWidget
 		void RefreshNews()
 		{
 			_refreshTimer.Stop();
-			refreshButton.IsEnabled = false;
+			RefreshButton.IsEnabled = false;
 
 			_data.RefreshNews(
 				() =>
@@ -132,9 +132,9 @@ namespace CityIndexNewsWidget
 			Dispatcher.BeginInvoke(
 				() =>
 				{
-					errTextBox.Text = exc.ToString();
-					tabControl.SelectedItem = errTab;
-					refreshButton.IsEnabled = true;
+					ErrTextBox.Text = exc.ToString();
+					TabControl.SelectedItem = ErrTab;
+					RefreshButton.IsEnabled = true;
 				});
 		}
 
@@ -143,10 +143,10 @@ namespace CityIndexNewsWidget
 			Dispatcher.BeginInvoke(
 				() =>
 				{
-					newsTicker.DataContext = _data.News;
+					NewsTicker.DataContext = _data.News;
 
-					tabControl.SelectedItem = newsTab;
-					refreshButton.IsEnabled = true;
+					TabControl.SelectedItem = NewsTab;
+					RefreshButton.IsEnabled = true;
 				});
 		}
 
@@ -157,8 +157,9 @@ namespace CityIndexNewsWidget
 			window.Closed +=
 				(s, a) =>
 				{
-					newsTicker.NewsStoryBoard.Resume();
+					NewsTicker.NewsStoryBoard.Resume();
 				};
+			NewsTicker.Cursor = Cursors.Wait;
 			window.Cursor = Cursors.Wait;
 			window.Show();
 
@@ -166,6 +167,7 @@ namespace CityIndexNewsWidget
 				detail => Dispatcher.BeginInvoke(
 					() =>
 					{
+						NewsTicker.Cursor = Cursors.Arrow;
 						window.Cursor = Cursors.Arrow;
 						window.Content.Text = detail.Story;
 					}),

@@ -23,7 +23,7 @@ namespace CityIndexNewsWidget
 		{
 		}
 
-		private void newsGrid_SizeChanged(object sender, SizeChangedEventArgs e)
+		private void NewsGrid_SizeChanged(object sender, SizeChangedEventArgs e)
 		{
 			var data = (Array)DataContext;
 
@@ -31,25 +31,25 @@ namespace CityIndexNewsWidget
 				return;
 
 			NewsStoryBoard.Stop();
-			newsGrid.SelectedItem = null;
+			NewsGrid.SelectedItem = null;
 
 			if (data.Length == 0)
 				return;
 
-			newsAnimation.From = ActualHeight;
-			newsAnimation.To = -newsGrid.ActualHeight;
-			var secs = (newsAnimation.From.Value - newsAnimation.To.Value) / 50;
-			newsAnimation.Duration = new Duration(TimeSpan.FromSeconds(secs));
+			NewsAnimation.From = ActualHeight;
+			NewsAnimation.To = -NewsGrid.ActualHeight;
+			var secs = (NewsAnimation.From.Value - NewsAnimation.To.Value) / 50;
+			NewsAnimation.Duration = new Duration(TimeSpan.FromSeconds(secs));
 
 			NewsStoryBoard.Begin();
 		}
 
-		private void mainPage_MouseEnter(object sender, MouseEventArgs e)
+		private void NewsGrid_MouseEnter(object sender, MouseEventArgs e)
 		{
 			NewsStoryBoard.Pause();
 		}
 
-		private void mainPage_MouseLeave(object sender, MouseEventArgs e)
+		private void NewsGrid_MouseLeave(object sender, MouseEventArgs e)
 		{
 			NewsStoryBoard.Resume();
 		}
@@ -61,10 +61,10 @@ namespace CityIndexNewsWidget
 
 		public event EventHandler<ClickArgs> ItemClicked;
 
-		private void newsGrid_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
+		private void NewsGrid_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
 		{
 			if (ItemClicked != null)
-				ItemClicked(this, new ClickArgs { Index = newsGrid.SelectedIndex });
+				ItemClicked(this, new ClickArgs { Index = NewsGrid.SelectedIndex });
 		}
 	}
 }
