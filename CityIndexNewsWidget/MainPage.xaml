@@ -10,7 +10,7 @@
     <Grid x:Name="LayoutRoot" Background="White">
         <Grid.RowDefinitions>
             <RowDefinition Height="250*" />
-            <RowDefinition Height="50" />
+            <RowDefinition Height="40" />
         </Grid.RowDefinitions>
         <sdk:TabControl HorizontalAlignment="Stretch" Name="TabControl" VerticalAlignment="Stretch" Grid.Row="0">
             <sdk:TabItem Name="NewsTab" Visibility="Collapsed">
@@ -23,8 +23,8 @@
             </sdk:TabItem>
         </sdk:TabControl>
         <StackPanel Grid.Row="1" Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Center">
-            <Button Content="Refresh" Height="23" HorizontalAlignment="Center" Name="RefreshButton" VerticalAlignment="Bottom" Width="75" Click="RefreshButton_Click" />
-            <Button Content="Settings" Height="23" Name="SettingsButton" VerticalAlignment="Center" Width="75" Click="SettingsButton_Click" Margin="20,0,0,0" />
+            <Button Content="Refresh" Height="23" HorizontalAlignment="Center" Name="RefreshButton" VerticalAlignment="Center" Width="75" Click="RefreshButton_Click" />
+            <Button Content="Settings" Height="23" HorizontalAlignment="Center" Name="SettingsButton" VerticalAlignment="Center" Width="75" Click="SettingsButton_Click" Margin="15,0,0,0" />
         </StackPanel>
     </Grid>
 </UserControl>

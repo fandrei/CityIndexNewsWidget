@@ -51,7 +51,7 @@
     <Reference Include="System.EnterpriseServices" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="CityIndexNewsWidgetTestPage.html" />
+    <Content Include="gadget.html" />
     <Content Include="ClientBin\CityIndexNewsWidget.xap" />
     <Content Include="Silverlight.js" />
     <Content Include="Web.config" />
