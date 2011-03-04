@@ -23,22 +23,11 @@ namespace CityIndexNewsWidget
 		private void UserControl_Loaded(object sender, RoutedEventArgs e)
 		{
 			Application.Current.UnhandledException += OnUnhandledException;
+			Application.Current.Exit += OnExit;
 
 			RefreshNews();
 
 			InitTimer();
-		}
-
-		private void InitTimer()
-		{
-			_refreshTimer.Interval = TimeSpan.FromSeconds(ApplicationSettings.Instance.RefreshPeriodSecs);
-			_refreshTimer.Tick += RefreshTimerTick;
-			_refreshTimer.Start();
-		}
-
-		public void RefreshTimerTick(object o, EventArgs sender)
-		{
-			RefreshNews();
 		}
 
 		void OnUnhandledException(object sender, ApplicationUnhandledExceptionEventArgs args)
@@ -58,6 +47,23 @@ namespace CityIndexNewsWidget
 				});
 
 			args.Handled = true;
+		}
+
+		private void OnExit(object sender, EventArgs e)
+		{
+			_data.Dispose();
+		}
+
+		private void InitTimer()
+		{
+			_refreshTimer.Interval = TimeSpan.FromSeconds(ApplicationSettings.Instance.RefreshPeriodSecs);
+			_refreshTimer.Tick += RefreshTimerTick;
+			_refreshTimer.Start();
+		}
+
+		public void RefreshTimerTick(object o, EventArgs sender)
+		{
+			RefreshNews();
 		}
 
 		private void RefreshButton_Click(object sender, RoutedEventArgs e)

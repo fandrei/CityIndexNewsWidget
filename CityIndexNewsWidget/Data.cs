@@ -4,20 +4,22 @@ using System.Threading;
 
 using CIAPI.DTO;
 using CIAPI.Rpc;
+using CIAPI.Streaming;
 
 namespace CityIndexNewsWidget
 {
-	public class Data
+	public class Data : IDisposable
 	{
-		private static readonly Uri RPC_URI = new Uri("http://ciapipreprod.cityindextest9.co.uk/tradingapi");
-		private const string USERNAME = "xx189949";
-		private const string PASSWORD = "password";
-
 		private NewsDTO[] _news;
-
 		public NewsDTO[] News
 		{
 			get { return _news; }
+		}
+
+		public void GetNews(Action onSuccess, Action<NewsDTO> onUpdate, Action<Exception> onError)
+		{
+			//RefreshNewsAsync(onSuccess, onError);
+			//ThreadPool.QueueUserWorkItem(x => SubscribeToNewsHeadlineStream(onUpdate));
 		}
 
 		public void RefreshNews(Action onSuccess, Action<Exception> onError)
@@ -136,6 +138,16 @@ namespace CityIndexNewsWidget
 			_news = dummyList.ToArray();
 
 			onSuccess();
+		}
+
+		private static readonly Uri RPC_URI = new Uri("http://ciapipreprod.cityindextest9.co.uk/tradingapi");
+		private static readonly Uri STREAMING_URI = new Uri("http://pushpreprod.cityindextest9.co.uk/CITYINDEXSTREAMING");
+
+		private const string USERNAME = "xx189949";
+		private const string PASSWORD = "password";
+
+		public void Dispose()
+		{
 		}
 	}
 }
