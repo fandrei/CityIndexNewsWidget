@@ -7,24 +7,26 @@
     mc:Ignorable="d"
     d:DesignHeight="300" d:DesignWidth="400" Loaded="UserControl_Loaded" xmlns:my="clr-namespace:CityIndexNewsWidget">
 
-    <Grid x:Name="LayoutRoot" Background="White">
-        <Grid.RowDefinitions>
-            <RowDefinition Height="250*" />
-            <RowDefinition Height="40" />
-        </Grid.RowDefinitions>
-        <sdk:TabControl HorizontalAlignment="Stretch" Name="TabControl" VerticalAlignment="Stretch" Grid.Row="0">
-            <sdk:TabItem Name="NewsTab" Visibility="Collapsed">
-                <my:TickerControl x:Name="NewsTicker" ItemClicked="NewsTicker_ItemClicked" />
-            </sdk:TabItem>
-            <sdk:TabItem Name="ErrTab" Visibility="Collapsed">
-                <TextBox Name="ErrTextBox" TextWrapping="Wrap" IsReadOnly="True" />
-            </sdk:TabItem>
-            <sdk:TabItem Name="SettingsTab" Visibility="Collapsed">
-            </sdk:TabItem>
-        </sdk:TabControl>
-        <StackPanel Grid.Row="1" Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Center">
-            <Button Content="Refresh" Height="23" HorizontalAlignment="Center" Name="RefreshButton" VerticalAlignment="Center" Width="75" Click="RefreshButton_Click" />
-            <Button Content="Settings" Height="23" HorizontalAlignment="Center" Name="SettingsButton" VerticalAlignment="Center" Width="75" Click="SettingsButton_Click" Margin="15,0,0,0" />
-        </StackPanel>
-    </Grid>
+    <Border BorderBrush="DarkCyan" BorderThickness="2">
+        <Grid x:Name="LayoutRoot" Background="White">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="250*" />
+                <RowDefinition Height="40" />
+            </Grid.RowDefinitions>
+            <sdk:TabControl HorizontalAlignment="Stretch" Name="TabControl" VerticalAlignment="Stretch" Grid.Row="0">
+                <sdk:TabItem Name="NewsTab" Visibility="Collapsed">
+                    <my:TickerControl x:Name="NewsTicker" ItemClicked="NewsTicker_ItemClicked" />
+                </sdk:TabItem>
+                <sdk:TabItem Name="ErrTab" Visibility="Collapsed">
+                    <TextBox Name="ErrTextBox" TextWrapping="Wrap" IsReadOnly="True" />
+                </sdk:TabItem>
+                <sdk:TabItem Name="SettingsTab" Visibility="Collapsed">
+                </sdk:TabItem>
+            </sdk:TabControl>
+            <StackPanel Grid.Row="1" Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Center">
+                <Button Content="Refresh" Height="23" HorizontalAlignment="Center" Name="RefreshButton" VerticalAlignment="Center" Width="75" Click="RefreshButton_Click" />
+                <Button Content="Settings" Height="23" HorizontalAlignment="Center" Name="SettingsButton" VerticalAlignment="Center" Width="75" Click="SettingsButton_Click" Margin="15,0,0,0" />
+            </StackPanel>
+        </Grid>
+    </Border>
 </UserControl>

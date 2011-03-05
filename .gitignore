@@ -3,3 +3,4 @@ obj/
 ClientBin/
 *.Resharper.user
 *.suo
+*.xap
