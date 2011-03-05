@@ -37,8 +37,7 @@ namespace CityIndexNewsWidget
 				{
 					try
 					{
-						ErrTextBox.Text = args.ExceptionObject.ToString();
-						TabControl.SelectedItem = ErrTab;
+						ReportExceptionDirectly(args.ExceptionObject);
 					}
 					catch (Exception exc)
 					{
@@ -138,10 +137,21 @@ namespace CityIndexNewsWidget
 			Dispatcher.BeginInvoke(
 				() =>
 				{
-					ErrTextBox.Text = exc.ToString();
-					TabControl.SelectedItem = ErrTab;
+					ReportExceptionDirectly(exc);
 					RefreshButton.IsEnabled = true;
 				});
+		}
+
+		private void ReportExceptionDirectly(Exception exc)
+		{
+			string msg;
+#if DEBUG
+			msg = exc.ToString();
+#else
+			msg = exc.Message;
+#endif
+			ErrTextBox.Text = msg;
+			TabControl.SelectedItem = ErrTab;
 		}
 
 		private void UpdateNewsGrid()

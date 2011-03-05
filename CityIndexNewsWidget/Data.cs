@@ -24,6 +24,7 @@ namespace CityIndexNewsWidget
 
 		public void RefreshNews(Action onSuccess, Action<Exception> onError)
 		{
+			throw new Exception("aaa");
 			RefreshNewsAsync(onSuccess, onError);
 			//ThreadPool.QueueUserWorkItem(x => RefreshNewsSyncThreadEntry(onSuccess, onError));
 			//RefreshNewsDummy(onSuccess, onError);
