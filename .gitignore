@@ -4,3 +4,4 @@ ClientBin/
 *.Resharper.user
 *.suo
 *.xap
+*.gadget
