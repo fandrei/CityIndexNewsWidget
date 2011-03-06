@@ -1,32 +1,25 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Threading;
 
 using CIAPI.DTO;
 using CIAPI.Rpc;
 using CIAPI.Streaming;
+using StreamingClient;
 
 namespace CityIndexNewsWidget
 {
 	public class Data : IDisposable
 	{
-		private NewsDTO[] _news;
-		public NewsDTO[] News
-		{
-			get { return _news; }
-		}
-
-		public void GetNews(Action onSuccess, Action<NewsDTO> onUpdate, Action<Exception> onError)
-		{
-			//RefreshNewsAsync(onSuccess, onError);
-			//ThreadPool.QueueUserWorkItem(x => SubscribeToNewsHeadlineStream(onUpdate));
-		}
+		public NewsDTO[] News { get; private set; }
 
 		public void RefreshNews(Action onSuccess, Action<Exception> onError)
 		{
+			SubscribeNewsUpdates(null, onError);
+
 			RefreshNewsAsync(onSuccess, onError);
 			//ThreadPool.QueueUserWorkItem(x => RefreshNewsSyncThreadEntry(onSuccess, onError));
-			//RefreshNewsDummy(onSuccess, onError);
 		}
 
 		private void RefreshNewsAsync(Action onSuccess, Action<Exception> onError)
@@ -46,9 +39,9 @@ namespace CityIndexNewsWidget
 								try
 								{
 									var resp = client.EndListNewsHeadlines(ar2);
-									_news = resp.Headlines;
+									News = resp.Headlines;
 
-									client.BeginLogOut(ar3 => { }, null);
+									_client.BeginLogOut(ar3 => _client.EndLogOut(ar3), null);
 
 									onSuccess();
 								}
@@ -82,7 +75,7 @@ namespace CityIndexNewsWidget
 								{
 									var resp = client.EndGetNewsDetail(ar2);
 
-									client.BeginLogOut(ar3 => { }, null);
+									_client.BeginLogOut(ar3 => _client.EndLogOut(ar3), null);
 
 									onSuccess(resp.NewsDetail);
 								}
@@ -107,7 +100,7 @@ namespace CityIndexNewsWidget
 				client.LogIn(USERNAME, PASSWORD);
 				var resp = client.ListNewsHeadlines(ApplicationSettings.Instance.CategoryCode,
 					ApplicationSettings.Instance.MaxCount);
-				_news = resp.Headlines;
+				News = resp.Headlines;
 				client.LogOut();
 
 				onSuccess();
@@ -119,25 +112,58 @@ namespace CityIndexNewsWidget
 			}
 		}
 
-		void RefreshNewsDummy(Action onSuccess, Action<Exception> onError)
+		void SubscribeNewsUpdates(Action<NewsDTO> onUpdate, Action<Exception> onError)
 		{
-			var dummyList = new List<NewsDTO>();
-			for (int i = 0; i < ApplicationSettings.Instance.MaxCount; i++)
-			{
-				var text = "news " + i;
-				for (int t = 0; t < 5; t++)
-					text += text;
-				dummyList.Add(
-					new NewsDTO
+			_client = new Client(RPC_URI);
+			_client.BeginLogIn(USERNAME, PASSWORD,
+				ar =>
+				{
+					try
 					{
-						Headline = text,
-						PublishDate = DateTime.Now,
-						StoryId = i
-					});
-			}
-			_news = dummyList.ToArray();
+						_client.EndLogIn(ar);
+						Debug.WriteLine("Login ok");
 
-			onSuccess();
+						_streamingClient = StreamingClientFactory.CreateStreamingClient(
+							STREAMING_URI, USERNAME, _client.SessionId);
+						_streamingClient.Connect();
+						Debug.WriteLine("\r\n\r\n\r\n\r\n\r\nStreaming connected ok");
+
+						_newsListener = _streamingClient.BuildListener<NewsDTO>("NEWS.MOCKHEADLINES.UK");
+						_newsListener.Start();
+						_newsListener.MessageRecieved +=
+							(s, e) =>
+							{
+								var msg = e.Data.Headline;
+								Debug.WriteLine(msg);
+								//onUpdate(e.Data);
+							};
+
+						Debug.WriteLine("\r\n\r\n\r\n\r\n\r\nListener started ok");
+					}
+					catch (Exception exc)
+					{
+						onError(exc);
+					}
+				}, null);
+		}
+
+		public void Dispose()
+		{
+			if (_newsListener != null)
+			{
+				_newsListener.Stop();
+				_newsListener = null;
+			}
+			if (_streamingClient != null)
+			{
+				_streamingClient.Disconnect();
+				_streamingClient = null;
+			}
+			if (_client != null)
+			{
+				_client.BeginLogOut(ar => _client.EndLogOut(ar), null);
+				_client = null;
+			}
 		}
 
 		private static readonly Uri RPC_URI = new Uri("http://ciapipreprod.cityindextest9.co.uk/tradingapi");
@@ -146,8 +172,8 @@ namespace CityIndexNewsWidget
 		private const string USERNAME = "xx189949";
 		private const string PASSWORD = "password";
 
-		public void Dispose()
-		{
-		}
+		private Client _client;
+		private IStreamingClient _streamingClient;
+		private IStreamingListener<NewsDTO> _newsListener;
 	}
 }
