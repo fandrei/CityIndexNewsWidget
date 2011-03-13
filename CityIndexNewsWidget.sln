@@ -5,6 +5,11 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CityIndexNewsWidget", "City
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CityIndexNewsWidget.Web", "CityIndexNewsWidget.Web\CityIndexNewsWidget.Web.csproj", "{8E5BA3A4-F2F4-4313-8DB8-4FF0C9ADE6F5}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{F798FA36-42EE-412A-8278-82FBB4CA6D53}"
+	ProjectSection(SolutionItems) = preProject
+		README = README
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
