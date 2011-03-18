@@ -10,13 +10,13 @@
 
     <Grid x:Name="LayoutRoot" Background="White" my:Clip.ToBounds="true">
         <StackPanel Orientation="Vertical">
-            <sdk:DataGrid AutoGenerateColumns="False" HorizontalAlignment="Stretch" Name="NewsGrid" ItemsSource="{Binding}" IsReadOnly="True" HorizontalScrollBarVisibility="Disabled" HeadersVisibility="None" VerticalScrollBarVisibility="Disabled" SelectionMode="Single" SizeChanged="NewsGrid_SizeChanged" MouseEnter="NewsGrid_MouseEnter" MouseLeave="NewsGrid_MouseLeave" GridLinesVisibility="None" BorderThickness="0" MouseLeftButtonUp="NewsGrid_MouseLeftButtonUp" >
+            <sdk:DataGrid AutoGenerateColumns="False" HorizontalAlignment="Stretch" Name="NewsGrid" ItemsSource="{Binding}" IsReadOnly="True" HorizontalScrollBarVisibility="Disabled" HeadersVisibility="None" VerticalScrollBarVisibility="Disabled" SelectionMode="Single" SizeChanged="NewsGrid_SizeChanged" MouseEnter="NewsGrid_MouseEnter" MouseLeave="NewsGrid_MouseLeave" GridLinesVisibility="None" BorderThickness="0" MouseLeftButtonUp="NewsGrid_MouseLeftButtonUp" TextOptions.TextHintingMode="Animated">
                 <sdk:DataGrid.Columns>
                     <sdk:DataGridTextColumn Header="Published" Binding="{Binding PublishDate}"/>
                     <sdk:DataGridTemplateColumn Header="Headline" Width="*">
                         <sdk:DataGridTemplateColumn.CellTemplate>
                             <DataTemplate>
-                                <TextBlock TextWrapping="Wrap" Text="{Binding Headline}" />
+                                <TextBlock TextWrapping="Wrap" Text="{Binding Headline}" TextOptions.TextHintingMode="Animated"/>
                             </DataTemplate>
                         </sdk:DataGridTemplateColumn.CellTemplate>
                     </sdk:DataGridTemplateColumn>

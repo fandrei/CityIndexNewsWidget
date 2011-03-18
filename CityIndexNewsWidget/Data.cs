@@ -129,7 +129,6 @@ namespace CityIndexNewsWidget
 						Debug.WriteLine("\r\n\r\n\r\n\r\n\r\nStreaming connected ok");
 
 						_newsListener = _streamingClient.BuildListener<NewsDTO>("NEWS.MOCKHEADLINES.UK");
-						_newsListener.Start();
 						_newsListener.MessageRecieved +=
 							(s, e) =>
 							{
@@ -137,6 +136,7 @@ namespace CityIndexNewsWidget
 								Debug.WriteLine(msg);
 								//onUpdate(e.Data);
 							};
+						_newsListener.Start();
 
 						Debug.WriteLine("\r\n\r\n\r\n\r\n\r\nListener started ok");
 					}
