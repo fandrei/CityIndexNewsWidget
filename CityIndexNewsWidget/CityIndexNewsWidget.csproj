@@ -60,24 +60,29 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="CIAPI.Silverlight">
-      <HintPath>..\packages\CIAPI.CS.1.0.139.0\lib\Silverlight40\CIAPI.Silverlight.dll</HintPath>
+    <Reference Include="CIAPI.Silverlight, Version=1.0.141.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\CIAPI.CS.1.0.153.0\lib\Silverlight40\CIAPI.Silverlight.dll</HintPath>
     </Reference>
-    <Reference Include="CityIndex.JsonClient.Silverlight">
-      <HintPath>..\packages\CIAPI.CS.1.0.139.0\lib\Silverlight40\CityIndex.JsonClient.Silverlight.dll</HintPath>
+    <Reference Include="CityIndex.JsonClient.Silverlight, Version=1.0.141.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\CIAPI.CS.1.0.153.0\lib\Silverlight40\CityIndex.JsonClient.Silverlight.dll</HintPath>
     </Reference>
-    <Reference Include="Common.Logging.Silverlight">
-      <HintPath>..\packages\CIAPI.CS.1.0.139.0\lib\Silverlight40\Common.Logging.Silverlight.dll</HintPath>
+    <Reference Include="Common.Logging.Silverlight, Version=1.0.141.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\CIAPI.CS.1.0.153.0\lib\Silverlight40\Common.Logging.Silverlight.dll</HintPath>
     </Reference>
     <Reference Include="mscorlib" />
-    <Reference Include="Newtonsoft.Json.Silverlight">
-      <HintPath>..\packages\CIAPI.CS.1.0.139.0\lib\Silverlight40\Newtonsoft.Json.Silverlight.dll</HintPath>
+    <Reference Include="Newtonsoft.Json.Silverlight, Version=3.5.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\CIAPI.CS.1.0.153.0\lib\Silverlight40\Newtonsoft.Json.Silverlight.dll</HintPath>
     </Reference>
-    <Reference Include="StreamingClient.Silverlight">
-      <HintPath>..\packages\CIAPI.CS.1.0.139.0\lib\Silverlight40\StreamingClient.Silverlight.dll</HintPath>
+    <Reference Include="StreamingClient.Silverlight, Version=1.0.141.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\CIAPI.CS.1.0.153.0\lib\Silverlight40\StreamingClient.Silverlight.dll</HintPath>
     </Reference>
-    <Reference Include="StreamingClient.Silverlight.Lightstreamer">
-      <HintPath>..\packages\CIAPI.CS.1.0.139.0\lib\Silverlight40\StreamingClient.Silverlight.Lightstreamer.dll</HintPath>
+    <Reference Include="StreamingClient.Silverlight.Lightstreamer, Version=1.0.141.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\CIAPI.CS.1.0.153.0\lib\Silverlight40\StreamingClient.Silverlight.Lightstreamer.dll</HintPath>
     </Reference>
     <Reference Include="System.ComponentModel.DataAnnotations, Version=2.0.5.0, Culture=neutral, PublicKeyToken=ddd0da4d3e678217" />
     <Reference Include="System.Windows" />
